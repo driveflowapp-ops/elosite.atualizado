@@ -11,11 +11,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <Image src="/logo.png" alt="Elo Digital" width={40} height={40} className="object-contain" />
-              <div className="flex text-2xl font-bold tracking-tight">
-                <span className="text-white">ELO</span>
-                <span className="text-brand-cyan ml-1">DIGITAL</span>
+            <div className="flex items-center gap-3.5 mb-4">
+              <Image
+                src="/logo.png"
+                alt="Elo Digital"
+                width={70}
+                height={70}
+                className="h-12 w-auto md:h-14 object-contain"
+              />
+              <div className="flex items-baseline text-2xl md:text-3xl font-bold tracking-tight select-none">
+                <span className="text-white font-black tracking-tight">ELO</span>
+                <span className="text-brand-cyan font-light ml-1.5 md:ml-2 tracking-wider">DIGITAL</span>
               </div>
             </div>
             <p className="text-gray-400 max-w-sm mb-6">

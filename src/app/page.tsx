@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Methodology from "@/components/Methodology";
 import Solutions from "@/components/Solutions";
-import SocialProof from "@/components/SocialProof";
 import Segments from "@/components/Segments";
 import Differential from "@/components/Differential";
 import CTASection from "@/components/CTASection";
@@ -17,7 +16,6 @@ export default function Home() {
         <Hero />
         <Methodology />
         <Solutions />
-        <SocialProof />
         <Segments />
         <Differential />
         <CTASection />

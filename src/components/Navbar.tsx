@@ -18,7 +18,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -27,19 +27,25 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
-        isScrolled
-          ? "bg-[#0A1628]/90 backdrop-blur-md border-b border-white/10 py-3 shadow-lg"
-          : "bg-transparent py-5"
+        "fixed top-0 left-0 right-0 z-50 h-20 md:h-24 transition-all duration-300 flex items-center",
+        "bg-[#0A1628] border-b border-white/10",
+        isScrolled ? "shadow-lg shadow-black/30" : "shadow-none"
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <Image src="/logo.png" alt="Elo Digital" width={48} height={48} className="object-contain" />
-          <div className="flex text-2xl font-bold tracking-tight">
-            <span className="text-white">ELO</span>
-            <span className="text-brand-cyan ml-1">DIGITAL</span>
+        <a href="#" className="flex items-center gap-3.5 group">
+          <Image
+            src="/logo.png"
+            alt="Elo Digital"
+            width={80}
+            height={80}
+            className="h-14 w-auto md:h-16 object-contain transition-transform group-hover:scale-105"
+            priority
+          />
+          <div className="flex items-baseline text-2xl md:text-3xl font-bold tracking-tight select-none">
+            <span className="text-white font-black tracking-tight">ELO</span>
+            <span className="text-brand-cyan font-light ml-1.5 md:ml-2 tracking-wider">DIGITAL</span>
           </div>
         </a>
 
@@ -49,7 +55,7 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              className="text-sm font-medium text-gray-300 hover:text-brand-cyan transition-colors"
             >
               {link.name}
             </a>
@@ -68,8 +74,9 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white"
+          className="md:hidden text-white p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Menu"
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -77,12 +84,12 @@ export default function Navbar() {
 
       {/* Mobile Nav */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-[#0A1628] border-b border-white/10 shadow-xl px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden absolute top-20 left-0 right-0 bg-[#0A1628] border-b border-white/10 shadow-2xl px-6 py-6 flex flex-col gap-4">
           {NAV_LINKS.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-base font-medium text-gray-200 hover:text-white py-2"
+              className="text-base font-medium text-gray-200 hover:text-brand-cyan py-2 border-b border-white/5"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
@@ -90,7 +97,7 @@ export default function Navbar() {
           ))}
           <a
             href="#contato"
-            className="bg-brand-primary text-white text-center px-6 py-3 rounded-lg font-medium mt-2"
+            className="bg-brand-primary text-white text-center px-6 py-3 rounded-xl font-medium mt-2 shadow-lg shadow-blue-500/20"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Falar no WhatsApp
@@ -100,3 +107,4 @@ export default function Navbar() {
     </header>
   );
 }
+

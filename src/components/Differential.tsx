@@ -32,7 +32,7 @@ export default function Differential() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
-            Não vendemos apenas sites e aplicativos. Desenvolvemos soluções para resolver problemas reais e gerar <span className="text-brand-cyan">crescimento sustentável.</span>
+            Não vendemos apenas sites e aplicativos. Desenvolvemos soluções para resolver problemas reais e gerar crescimento sustentável.
           </h2>
         </div>
 
@@ -44,6 +44,21 @@ export default function Differential() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Wave Transition into CTASection (#0A1628) */}
+      <div className="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-0 pointer-events-none">
+        <svg
+          className="relative block w-full h-[40px] md:h-[70px]"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#0A1628"
+            d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+          ></path>
+        </svg>
       </div>
     </section>
   );
