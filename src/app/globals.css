@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #1E5FE0;
+  --color-brand-cyan: #3B9EFF;
+  --color-brand-dark: #0A1628;
+  --color-brand-darker: #07101e;
+  --color-brand-light: #F5F7FA;
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Base custom classes */
+.bg-glass {
+  @apply bg-white/70 backdrop-blur-md border-b border-gray-200/50;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-cyan to-brand-primary;
+}
