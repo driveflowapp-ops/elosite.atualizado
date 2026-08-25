@@ -9,6 +9,9 @@ const SOLUTIONS = [
     title: "Elo Presença",
     subtitle: "Presença digital com credibilidade, clareza e conversão.",
     icon: Globe,
+    color: "bg-[#1E5FE0]",
+    shadow: "shadow-[#1E5FE0]/20",
+    highlight: true,
     features: [
       "Sites institucionais premium",
       "Landing pages focadas em conversão",
@@ -20,6 +23,9 @@ const SOLUTIONS = [
     title: "Elo Vendas",
     subtitle: "Vendas online com organização, agilidade e integração.",
     icon: ShoppingCart,
+    color: "bg-[#06B6D4]",
+    shadow: "shadow-[#06B6D4]/20",
+    highlight: false,
     features: [
       "Loja virtual premium e completa",
       "Gestão de estoque e pagamentos",
@@ -31,6 +37,9 @@ const SOLUTIONS = [
     title: "Elo Gestão",
     subtitle: "Sistemas sob medida para organizar processos e centralizar a operação.",
     icon: LayoutDashboard,
+    color: "bg-[#0F172A]",
+    shadow: "shadow-[#0F172A]/20",
+    highlight: false,
     features: [
       "ERPs e Sistemas personalizados",
       "Gestão de clientes e ordens de serviço",
@@ -42,6 +51,9 @@ const SOLUTIONS = [
     title: "Elo Inteligência",
     subtitle: "Integrações, automações e dados transformados em decisão.",
     icon: Sparkles,
+    color: "bg-[#3B82F6]",
+    shadow: "shadow-[#3B82F6]/20",
+    highlight: false,
     features: [
       "Automação de tarefas repetitivas",
       "Integração entre sistemas e apps",
@@ -52,7 +64,7 @@ const SOLUTIONS = [
 
 export default function Solutions() {
   return (
-    <section id="solucoes" className="py-24 bg-white">
+    <section id="solucoes" className="section-padding bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -71,10 +83,12 @@ export default function Solutions() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group bg-white rounded-2xl p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(30,95,224,0.12)] hover:border-[#1E5FE0]/20 transition-all duration-300"
+              className={`group bg-white rounded-2xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(30,95,224,0.12)] hover:border-[#1E5FE0]/20 transition-all duration-300 ${
+                solution.highlight ? "border-2 border-brand-primary/20 md:scale-[1.02]" : "border border-gray-100"
+              }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-6">
-                <div className="w-16 h-16 shrink-0 bg-[#1E5FE0] text-white rounded-xl flex items-center justify-center shadow-lg shadow-[#1E5FE0]/20 group-hover:scale-110 transition-transform duration-300">
+                <div className={`w-16 h-16 shrink-0 text-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 ${solution.color} ${solution.shadow}`}>
                   <solution.icon size={32} strokeWidth={1.5} />
                 </div>
                 <div>

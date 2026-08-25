@@ -12,7 +12,7 @@ const SEGMENTS = [
 
 export default function Segments() {
   return (
-    <section id="segmentos" className="py-24 bg-[#0A1628] text-white overflow-hidden relative border-t border-white/5">
+    <section id="segmentos" className="section-padding bg-[#0A1628] text-white overflow-hidden relative border-t border-white/5">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxZTVmZTAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djI2SDI0VjM0SDBWMjRoMjRWMEgzNnYyNGgyNnYxMEgzNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
       
       <div className="container mx-auto px-6 relative z-10">

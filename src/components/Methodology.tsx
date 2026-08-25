@@ -29,7 +29,7 @@ const STEPS = [
 
 export default function Methodology() {
   return (
-    <section id="como-atuamos" className="py-24 bg-[#F5F7FA]">
+    <section id="como-atuamos" className="section-padding bg-[#F5F7FA]">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -42,7 +42,10 @@ export default function Methodology() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
           {/* Connecting line for desktop */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0" />
+          <div className="hidden lg:block absolute top-[104px] left-[12%] right-[12%] h-0.5 bg-gray-200 z-0" />
+          
+          {/* Connecting line for mobile/tablet */}
+          <div className="lg:hidden absolute top-[10%] bottom-[10%] left-1/2 w-0.5 bg-gray-200 -translate-x-1/2 z-0" />
 
           {STEPS.map((step, index) => (
             <div key={index} className="relative z-10 flex flex-col items-center text-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300">

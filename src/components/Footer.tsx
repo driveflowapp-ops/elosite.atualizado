@@ -1,4 +1,5 @@
 import { Globe } from "lucide-react";
+import Image from "next/image";
 const Instagram = ({ size }: { size: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
 );
@@ -10,7 +11,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-3 mb-4">
+              <Image src="/logo.png" alt="Elo Digital" width={40} height={40} className="object-contain" />
               <div className="flex text-2xl font-bold tracking-tight">
                 <span className="text-white">ELO</span>
                 <span className="text-brand-cyan ml-1">DIGITAL</span>
@@ -63,9 +65,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-sm">
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-center md:text-left gap-4">
           <p>© {new Date().getFullYear()} Elo Digital. Todos os direitos reservados.</p>
-          <p className="mt-2 md:mt-0">Feito com <span className="text-brand-cyan">tecnologia e propósito</span>.</p>
+          <p>Feito com <span className="text-brand-cyan">tecnologia e propósito</span>.</p>
         </div>
       </div>
     </footer>

@@ -31,7 +31,7 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
         >
           <span className="inline-block py-1.5 px-4 rounded-full bg-[#1E5FE0]/20 text-[#3B9EFF] text-sm font-semibold tracking-wider mb-6 border border-[#1E5FE0]/30">
-            TRANSFORMAÇÃO DIGITAL PARA PMEs
+            TRANSFORMAÇÃO DIGITAL PARA PEQUENAS E MÉDIAS EMPRESAS
           </span>
         </motion.div>
 
@@ -75,6 +75,22 @@ export default function Hero() {
             Ver Soluções
           </a>
         </motion.div>
+      </div>
+
+      {/* Wave Transition */}
+      <div className="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-0">
+        <svg
+          className="relative block w-full h-[50px] md:h-[80px]"
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,121.32,199.11,113.8,241.13,109.18,282.87,83.1,321.39,56.44Z"
+            fill="#F5F7FA"
+          ></path>
+        </svg>
       </div>
     </section>
   );

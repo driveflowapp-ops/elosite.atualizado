@@ -19,6 +19,12 @@ body {
   color: var(--foreground);
 }
 
+@layer utilities {
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+}
+
 /* Base custom classes */
 .bg-glass {
   @apply bg-white/70 backdrop-blur-md border-b border-gray-200/50;

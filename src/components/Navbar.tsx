@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { name: "Soluções", href: "#solucoes" },
@@ -35,11 +36,11 @@ export default function Navbar() {
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2 group">
+          <Image src="/logo.png" alt="Elo Digital" width={48} height={48} className="object-contain" />
           <div className="flex text-2xl font-bold tracking-tight">
             <span className="text-white">ELO</span>
             <span className="text-brand-cyan ml-1">DIGITAL</span>
           </div>
-          {/* Substituir por: <img src="/logo.svg" alt="Elo Digital" className="h-8" /> */}
         </a>
 
         {/* Desktop Nav */}

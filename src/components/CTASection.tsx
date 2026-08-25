@@ -2,7 +2,22 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section id="contato" className="py-24 bg-brand-dark relative overflow-hidden border-t border-white/5">
+    <section id="contato" className="section-padding bg-brand-dark relative overflow-hidden">
+      {/* Wave Transition */}
+      <div className="absolute top-[-1px] left-0 w-full overflow-hidden leading-none z-0 rotate-180">
+        <svg
+          className="relative block w-full h-[50px] md:h-[80px]"
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,121.32,199.11,113.8,241.13,109.18,282.87,83.1,321.39,56.44Z"
+            fill="#1e40af"
+          ></path>
+        </svg>
+      </div>
       {/* Network Background (reused from Hero for consistency) */}
       <div className="absolute inset-0 z-0 opacity-10">
         <svg
