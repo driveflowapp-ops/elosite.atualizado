@@ -1,5 +1,6 @@
 import { Globe } from "lucide-react";
 import Image from "next/image";
+import { WHATSAPP_URL, WHATSAPP_NUMBER_DISPLAY } from "@/lib/constants";
 const Instagram = ({ size }: { size: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
 );
@@ -11,17 +12,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-3.5 mb-4">
+            <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo.png"
                 alt="Elo Digital"
-                width={70}
-                height={70}
-                className="h-12 w-auto md:h-14 object-contain"
+                width={56}
+                height={56}
+                className="h-10 sm:h-12 w-auto object-contain"
               />
-              <div className="flex items-baseline text-2xl md:text-3xl font-bold tracking-tight select-none">
+              <div className="flex items-baseline text-xl sm:text-2xl font-bold tracking-tight select-none">
                 <span className="text-white font-black tracking-tight">ELO</span>
-                <span className="text-brand-cyan font-light ml-1.5 md:ml-2 tracking-wider">DIGITAL</span>
+                <span className="text-brand-cyan font-light ml-1 sm:ml-1.5 tracking-wider">DIGITAL</span>
               </div>
             </div>
             <p className="text-gray-400 max-w-sm mb-6">
@@ -53,8 +54,8 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Contato</h4>
             <ul className="space-y-3">
               <li>
-                <a href="https://wa.me/5562981864905" className="hover:text-brand-cyan transition-colors flex items-center gap-2">
-                  (62) 98186-4905
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="hover:text-brand-cyan transition-colors flex items-center gap-2">
+                  {WHATSAPP_NUMBER_DISPLAY}
                 </a>
               </li>
               <li>

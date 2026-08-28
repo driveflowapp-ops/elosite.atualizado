@@ -1,4 +1,5 @@
 import { ArrowRight, MessageCircle } from "lucide-react";
+import { WHATSAPP_URL } from "@/lib/constants";
 
 export default function CTASection() {
   return (
@@ -32,7 +33,7 @@ export default function CTASection() {
             Fale com a nossa equipe no WhatsApp e descubra como a tecnologia certa pode transformar a sua operação.
           </p>
           <a
-            href="https://wa.me/5562981864905"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-brand-primary hover:bg-blue-600 text-white px-8 py-4 rounded-full font-semibold transition-all shadow-[0_0_20px_rgba(30,95,224,0.3)] hover:shadow-[0_0_30px_rgba(30,95,224,0.6)] text-lg"
