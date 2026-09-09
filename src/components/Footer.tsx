@@ -29,10 +29,10 @@ export default function Footer() {
               Tecnologia que aproxima. Soluções que transformam. Desenvolvemos ferramentas digitais sob medida para o crescimento do seu negócio.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://instagram.com/elodigitaloficial" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors">
+              <a href="https://instagram.com/elodigital.dev" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors">
                 <Instagram size={20} />
               </a>
-              <a href="https://elodigital.com.br" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors">
+              <a href="https://elodigital.dev.br" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-primary hover:text-white transition-colors">
                 <Globe size={20} />
               </a>
             </div>
@@ -59,13 +59,13 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com/elodigitaloficial" className="hover:text-brand-cyan transition-colors">
-                  @elodigitaloficial
+                <a href="https://instagram.com/elodigital.dev" target="_blank" rel="noopener noreferrer" className="hover:text-brand-cyan transition-colors">
+                  @elodigital.dev
                 </a>
               </li>
               <li>
-                <a href="https://elodigital.com.br" className="hover:text-brand-cyan transition-colors">
-                  elodigital.com.br
+                <a href="https://elodigital.dev.br" target="_blank" rel="noopener noreferrer" className="hover:text-brand-cyan transition-colors">
+                  elodigital.dev.br
                 </a>
               </li>
             </ul>

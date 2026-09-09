@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://elodigital.com.br/sitemap.xml
+Sitemap: https://elodigital.dev.br/sitemap.xml

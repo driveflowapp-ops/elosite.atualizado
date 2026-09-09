@@ -35,16 +35,16 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between gap-4">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+        <a href="#" className="flex items-center gap-3 sm:gap-4 shrink-0 group">
           <Image
             src="/logo.png"
             alt="Elo Digital"
-            width={56}
-            height={56}
-            className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+            width={72}
+            height={72}
+            className="h-14 sm:h-16 w-auto object-contain transition-transform group-hover:scale-105"
             priority
           />
-          <div className="flex items-baseline text-xl sm:text-2xl font-bold tracking-tight select-none">
+          <div className="flex items-baseline text-2xl sm:text-3xl font-bold tracking-tight select-none">
             <span className="text-white font-black tracking-tight">ELO</span>
             <span className="text-brand-cyan font-light ml-1 sm:ml-1.5 tracking-wider">DIGITAL</span>
           </div>
