@@ -23,6 +23,15 @@ body {
   .section-padding {
     @apply py-16 md:py-24 lg:py-32;
   }
+
+  /* Esconde a barra de rolagem do trilho do carrossel (scroll-snap) */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Base custom classes */

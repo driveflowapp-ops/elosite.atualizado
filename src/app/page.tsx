@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Methodology from "@/components/Methodology";
 import Solutions from "@/components/Solutions";
+import Projetos from "@/components/Projetos";
 import Segments from "@/components/Segments";
 import Differential from "@/components/Differential";
 import CTASection from "@/components/CTASection";
@@ -16,6 +17,7 @@ export default function Home() {
         <Hero />
         <Methodology />
         <Solutions />
+        <Projetos />
         <Segments />
         <Differential />
         <CTASection />

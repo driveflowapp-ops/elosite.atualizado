@@ -46,7 +46,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
         >
-          Tecnologia que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B9EFF] to-[#1E5FE0]">resolve problemas reais</span> — não só sites e aplicativos.
+          Tecnologia que <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B9EFF] to-[#1E5FE0]">resolve problemas reais</span>! Não apenas sites e aplicativos.
         </motion.h1>
 
         <motion.p
