@@ -11,9 +11,6 @@ type ProjectSlide = {
   id: string;
   src: string;
   client: string;
-  segment: string;
-  summary: string;
-  delivered: string[];
   alt: string;
 };
 
@@ -28,30 +25,18 @@ const SLIDES: ProjectSlide[] = [
     id: "ads",
     src: "/projetos/case-ads-completo.jpg",
     client: "ADS Construções",
-    segment: "Escavação e terraplanagem",
-    summary:
-      "Presença digital própria e a operação de obra organizada em um só lugar, do orçamento ao acompanhamento.",
-    delivered: ["Site institucional", "App de gestão (PWA)", "Identidade digital"],
     alt: "Case ADS Construções — site institucional e aplicativo PWA de gestão desenvolvidos pela Elo Digital.",
   },
   {
     id: "amigo",
     src: "/projetos/case-amigo-completo.jpg",
     client: "Amigo Soluções Ambientais",
-    segment: "Saneamento e limpeza de fossa",
-    summary:
-      "Atendimento, agendamento e controle de serviços reunidos em um sistema feito para o dia a dia em campo.",
-    delivered: ["Site institucional", "Sistema de gestão", "Controle de operação"],
     alt: "Case Amigo Soluções Ambientais — site e sistema completo de gestão da operação desenvolvidos pela Elo Digital.",
   },
   {
     id: "cer",
     src: "/projetos/case-cer-completo.jpg",
     client: "CER — Cia Elétrica Reis",
-    segment: "Serviços elétricos",
-    summary:
-      "Credibilidade para fechar contrato e uma agenda de serviços que deixou de viver no papel e no WhatsApp.",
-    delivered: ["Site institucional", "App de gestão (PWA)", "Perfil no Instagram"],
     alt: "Case CER Cia Elétrica Reis — site institucional e aplicativo PWA de gestão desenvolvidos pela Elo Digital.",
   },
 ];
@@ -167,7 +152,7 @@ export default function Projetos() {
       </div>
 
       <div
-        className="relative mx-auto w-full max-w-5xl px-4 sm:px-12"
+        className="relative mx-auto w-full max-w-4xl px-4"
         role="region"
         aria-roledescription="carrossel"
         aria-label="Projetos entregues pela Elo Digital"
@@ -201,57 +186,20 @@ export default function Projetos() {
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${index + 1} de ${SLIDES.length} — ${slide.client}`}
-                className="min-w-full shrink-0 snap-center px-2 sm:px-6"
+                className="min-w-full shrink-0 snap-center"
               >
-                <div className="mx-auto grid max-w-3xl items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-10">
-                  {/* Largura travada em vw/px (não em %) para o slide nunca
-                      crescer além do trilho — a imagem é sempre menor que o
-                      viewport e mantém a proporção A4 sem cortar nada. */}
-                  <div className="group/art relative mx-auto">
-                    <div
-                      aria-hidden="true"
-                      className="absolute -inset-3 rounded-[28px] bg-gradient-to-br from-brand-cyan/25 to-brand-primary/10 opacity-0 blur-xl transition-opacity duration-500 group-hover/art:opacity-100"
-                    />
-                    <Image
-                      src={slide.src}
-                      alt={slide.alt}
-                      width={1240}
-                      height={1754}
-                      sizes="(max-width: 640px) 78vw, (max-width: 1024px) 320px, 380px"
-                      draggable={false}
-                      className="relative mx-auto block h-auto w-auto max-h-[62vh] max-w-[78vw] rounded-2xl shadow-[0_24px_60px_-18px_rgba(10,22,40,0.35)] ring-1 ring-black/5 transition-transform duration-500 ease-out group-hover/art:-translate-y-1.5 sm:max-w-[320px] lg:max-w-[380px]"
-                    />
-                  </div>
-
-                  <div
-                    className={`text-center transition-all duration-700 ease-out md:text-left ${
-                      active === index
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-3 opacity-0"
-                    }`}
-                  >
-                    <p className="text-sm font-medium text-brand-primary">
-                      {slide.segment}
-                    </p>
-                    <h3 className="mt-2 text-2xl font-bold text-gray-900 lg:text-3xl">
-                      {slide.client}
-                    </h3>
-                    <p className="mt-4 leading-relaxed text-gray-600">
-                      {slide.summary}
-                    </p>
-
-                    <ul className="mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
-                      {slide.delivered.map((item) => (
-                        <li
-                          key={item}
-                          className="rounded-full border border-brand-primary/15 bg-white px-3 py-1.5 text-sm font-medium text-gray-700"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                {/* Largura travada em vw/px (não em %) para o slide nunca
+                    crescer além do trilho — a imagem é sempre menor que o
+                    viewport e mantém a proporção A4 sem cortar nada. */}
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  width={1240}
+                  height={1754}
+                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 420px, 560px"
+                  draggable={false}
+                  className="mx-auto block h-auto w-auto max-h-[80vh] max-w-[85vw] rounded-2xl shadow-[0_24px_60px_-18px_rgba(10,22,40,0.35)] ring-1 ring-black/5 sm:max-w-[420px] lg:max-w-[560px]"
+                />
               </div>
             ))}
           </div>
@@ -261,7 +209,7 @@ export default function Projetos() {
           type="button"
           onClick={() => step(-1)}
           aria-label="Projeto anterior"
-          className="absolute left-0 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-brand-dark shadow-lg ring-1 ring-black/5 transition hover:scale-105 hover:bg-white hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:h-12 sm:w-12"
+          className="absolute left-0 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-brand-dark shadow-lg ring-1 ring-black/5 transition hover:scale-105 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:h-12 sm:w-12"
         >
           <ChevronLeft size={22} />
         </button>
@@ -269,7 +217,7 @@ export default function Projetos() {
           type="button"
           onClick={() => step(1)}
           aria-label="Próximo projeto"
-          className="absolute right-0 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-brand-dark shadow-lg ring-1 ring-black/5 transition hover:scale-105 hover:bg-white hover:text-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:h-12 sm:w-12"
+          className="absolute right-0 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-brand-dark shadow-lg ring-1 ring-black/5 transition hover:scale-105 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary sm:h-12 sm:w-12"
         >
           <ChevronRight size={22} />
         </button>

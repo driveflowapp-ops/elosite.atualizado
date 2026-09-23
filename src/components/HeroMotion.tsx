@@ -16,6 +16,56 @@ import { WHATSAPP_URL } from "@/lib/constants";
 const FRAMES_DESKTOP = 97;
 const FRAMES_MOBILE = 65;
 
+/** No celular usamos 1 quadro a cada 2 (índices pares): 33 no lugar de 65. */
+const MOBILE_FRAME_STEP = 2;
+
+type Frame = { source: CanvasImageSource; width: number; height: number };
+
+function frameUrls(isMobile: boolean) {
+  const dir = isMobile ? "/motion/elo-mobile" : "/motion/elo";
+  const total = isMobile ? FRAMES_MOBILE : FRAMES_DESKTOP;
+  const step = isMobile ? MOBILE_FRAME_STEP : 1;
+  const urls: string[] = [];
+  for (let i = 0; i < total; i += step) {
+    urls.push(`${dir}/frame_${String(i + 1).padStart(3, "0")}.webp`);
+  }
+  return urls;
+}
+
+/**
+ * Carrega um quadro já decodificado, para o drawImage não pagar a
+ * decodificação do WebP no meio do arraste.
+ *
+ * No celular vale createImageBitmap: o decode sai da thread principal e sobra
+ * um bitmap pronto, que é o caminho rápido no Safari iOS. No desktop ficamos
+ * com <img> + decode(), porque os 97 quadros de 900x936 ocupariam por volta
+ * de 327 MB se virassem bitmaps presos na memória.
+ */
+async function loadFrame(url: string, useBitmap: boolean): Promise<Frame | null> {
+  if (useBitmap && typeof createImageBitmap === "function") {
+    try {
+      const response = await fetch(url);
+      const bitmap = await createImageBitmap(await response.blob());
+      return { source: bitmap, width: bitmap.width, height: bitmap.height };
+    } catch {
+      // sem suporte ou falha na rede: cai no <img> abaixo
+    }
+  }
+
+  return new Promise<Frame | null>((resolve) => {
+    const img = new Image();
+    img.decoding = "async";
+    const settle = () =>
+      resolve({ source: img, width: img.naturalWidth, height: img.naturalHeight });
+    img.onload = () => {
+      if (typeof img.decode === "function") img.decode().then(settle, settle);
+      else settle();
+    };
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
+}
+
 type Slide = {
   title: string;
   support: string;
@@ -64,9 +114,15 @@ function usePrefersReducedMotion() {
 export default function HeroMotion() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const frameCountRef = useRef(FRAMES_DESKTOP);
+  const framesRef = useRef<(Frame | null)[]>([]);
   const rafRef = useRef(0);
+  // O loop só roda quando há arraste ou animação em curso.
+  const runningRef = useRef(false);
+  // Último quadro desenhado: evita redesenhar o mesmo índice.
+  const lastFrameRef = useRef(-1);
+  // Espelha o slide atual sem forçar re-render a cada quadro.
+  const slideRef = useRef(0);
+  const reducedRef = useRef(false);
 
   // progress: 0 = slide 0, 1 = slide 1 ... LAST
   const progressRef = useRef(0);
@@ -83,17 +139,22 @@ export default function HeroMotion() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const reduced = usePrefersReducedMotion();
 
-  const draw = useCallback(() => {
+  // force = true redesenha mesmo com o mesmo quadro (resize, fim do load).
+  const draw = useCallback((force = false) => {
     const canvas = canvasRef.current;
-    const images = imagesRef.current;
-    if (!canvas || images.length === 0) return;
+    const frames = framesRef.current;
+    if (!canvas || frames.length === 0) return;
 
-    const count = frameCountRef.current;
+    const count = frames.length;
     // cada slide consome uma volta inteira do giro
     const turn = progressRef.current % 1;
     const index = Math.min(count - 1, Math.max(0, Math.round(turn * (count - 1))));
-    const img = images[index];
-    if (!img || !img.complete || img.naturalWidth === 0) return;
+
+    // Nada mudou desde o último desenho: o arraste não precisa repintar.
+    if (!force && index === lastFrameRef.current) return;
+
+    const frame = frames[index];
+    if (!frame || frame.width === 0) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -108,71 +169,122 @@ export default function HeroMotion() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
-    const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
-    const dw = img.naturalWidth * scale;
-    const dh = img.naturalHeight * scale;
-    ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
+    const scale = Math.min(w / frame.width, h / frame.height);
+    const dw = frame.width * scale;
+    const dh = frame.height * scale;
+    ctx.drawImage(frame.source, (w - dw) / 2, (h - dh) / 2, dw, dh);
+    lastFrameRef.current = index;
   }, []);
 
-  // carrega os quadros
+  // carrega os quadros já decodificados
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const dir = isMobile ? "/motion/elo-mobile" : "/motion/elo";
-    const count = isMobile ? FRAMES_MOBILE : FRAMES_DESKTOP;
-    frameCountRef.current = count;
+    const urls = frameUrls(isMobile);
+    const frames: (Frame | null)[] = new Array(urls.length).fill(null);
+    framesRef.current = frames;
+    lastFrameRef.current = -1;
+    let cancelled = false;
 
-    const images: HTMLImageElement[] = [];
-    let loaded = 0;
+    const loadAll = async () => {
+      // o primeiro quadro na frente, para o hero aparecer sem esperar o resto
+      const first = await loadFrame(urls[0], isMobile);
+      if (cancelled) return;
+      frames[0] = first;
+      setReady(true);
+      draw(true);
 
-    for (let i = 1; i <= count; i += 1) {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = `${dir}/frame_${String(i).padStart(3, "0")}.webp`;
-      img.onload = () => {
-        loaded += 1;
-        if (i === 1) {
-          setReady(true);
-          draw();
-        }
-        if (loaded === count) draw();
-      };
-      images.push(img);
-    }
-    imagesRef.current = images;
+      const rest = await Promise.all(urls.slice(1).map((url) => loadFrame(url, isMobile)));
+      if (cancelled) return;
+      rest.forEach((frame, i) => {
+        frames[i + 1] = frame;
+      });
+      draw(true);
+    };
 
-    const onResize = () => draw();
+    void loadAll();
+
+    const onResize = () => draw(true);
     window.addEventListener("resize", onResize);
     return () => {
+      cancelled = true;
       window.removeEventListener("resize", onResize);
+      // libera os bitmaps, que seguram memória até serem fechados
+      for (const frame of frames) {
+        if (frame && typeof (frame.source as ImageBitmap).close === "function") {
+          (frame.source as ImageBitmap).close();
+        }
+      }
     };
   }, [draw]);
+
+  useEffect(() => {
+    reducedRef.current = reduced;
+  }, [reduced]);
 
   // Loop de suavização: aproxima progress do alvo.
   // Com "reduzir movimento" o arraste continua valendo — é manipulação direta,
   // não animação autônoma. O que desligamos é a inércia: o quadro passa a
   // acompanhar o ponteiro 1:1, sem easing.
-  useEffect(() => {
-    const tick = () => {
-      const diff = targetRef.current - progressRef.current;
-      if (Math.abs(diff) > 0.0005) {
-        const easing = reduced ? 1 : dragRef.current.active ? 0.35 : 0.12;
-        progressRef.current += diff * easing;
-        draw();
-        const next = Math.round(progressRef.current);
-        setSlide((current) => (next !== current ? next : current));
-      }
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [draw, reduced]);
+  //
+  // O loop roda sob demanda: quem move o alvo chama startLoop, e o tick se
+  // encerra sozinho quando não há mais arraste nem animação pendente. O
+  // setSlide só dispara quando o índice inteiro muda de fato, para o canvas
+  // não depender de re-render do React durante o arraste.
+  const startLoopRef = useRef<() => void>(() => {});
 
-  const goTo = useCallback((index: number) => {
-    const clamped = Math.min(LAST, Math.max(0, index));
-    targetRef.current = clamped;
-    setSlide(clamped);
-    setHasInteracted(true);
-  }, []);
+  useEffect(() => {
+    // declaração de função (içada) para o step poder se reagendar
+    function step() {
+      const diff = targetRef.current - progressRef.current;
+      const moving = Math.abs(diff) > 0.0005;
+
+      if (moving) {
+        const easing = reducedRef.current ? 1 : dragRef.current.active ? 0.35 : 0.12;
+        progressRef.current += diff * easing;
+      } else if (progressRef.current !== targetRef.current) {
+        progressRef.current = targetRef.current;
+      }
+
+      draw();
+
+      const next = Math.round(progressRef.current);
+      if (next !== slideRef.current) {
+        slideRef.current = next;
+        setSlide(next);
+      }
+
+      if (dragRef.current.active || moving) {
+        rafRef.current = requestAnimationFrame(step);
+      } else {
+        runningRef.current = false;
+      }
+    }
+
+    startLoopRef.current = () => {
+      if (runningRef.current) return;
+      runningRef.current = true;
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    return () => {
+      runningRef.current = false;
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [draw]);
+
+  const startLoop = useCallback(() => startLoopRef.current(), []);
+
+  const goTo = useCallback(
+    (index: number) => {
+      const clamped = Math.min(LAST, Math.max(0, index));
+      targetRef.current = clamped;
+      slideRef.current = clamped;
+      setSlide(clamped);
+      setHasInteracted(true);
+      startLoop();
+    },
+    [startLoop]
+  );
 
   // arraste: a velocidade do giro acompanha a velocidade do dedo
   const onPointerDown = (event: React.PointerEvent) => {
@@ -186,6 +298,7 @@ export default function HeroMotion() {
       startProgress: progressRef.current,
     };
     (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    startLoop();
   };
 
   const onPointerMove = (event: React.PointerEvent) => {
@@ -196,6 +309,7 @@ export default function HeroMotion() {
     // Só um movimento real conta como arraste — um clique parado não.
     if (Math.abs(drag.startX - event.clientX) > 4) setHasInteracted(true);
     targetRef.current = Math.min(LAST, Math.max(0, drag.startProgress + delta));
+    startLoop();
   };
 
   const onPointerUp = () => {
