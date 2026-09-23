@@ -16,8 +16,8 @@ import { WHATSAPP_URL } from "@/lib/constants";
 const FRAMES_DESKTOP = 97;
 const FRAMES_MOBILE = 65;
 
-/** No celular usamos 1 quadro a cada 2 (índices pares): 33 no lugar de 65. */
-const MOBILE_FRAME_STEP = 2;
+/** Passo entre quadros no celular. Em 1, usa os 65; em 2, usaria 33. */
+const MOBILE_FRAME_STEP = 1;
 
 type Frame = { source: CanvasImageSource; width: number; height: number };
 
