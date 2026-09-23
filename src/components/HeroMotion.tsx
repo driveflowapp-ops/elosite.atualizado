@@ -355,7 +355,7 @@ export default function HeroMotion() {
         >
           <canvas
             ref={canvasRef}
-            className={`h-auto w-full transition-opacity duration-500 ${
+            className={`canvas-fade h-auto w-full transition-opacity duration-500 ${
               ready ? "opacity-100" : "opacity-0"
             }`}
             style={{ aspectRatio: "856 / 890" }}
