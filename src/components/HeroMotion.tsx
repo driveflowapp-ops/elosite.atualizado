@@ -159,20 +159,18 @@ export default function HeroMotion() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight;
-    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+    // O backing store fica preso à resolução nativa do quadro, e não ao
+    // tamanho em CSS. O contêiner tem transição de 700ms ao trocar de slide,
+    // então o tamanho em CSS muda a cada quadro durante a transição; deixar o
+    // buffer acompanhar isso o realocava — e limpava — a cada pintura. Escalar
+    // o elemento para o tamanho final é trabalho do compositor, bem mais
+    // barato, e o drawImage passa a ser um blit 1:1, sem reescala nenhuma.
+    if (canvas.width !== frame.width || canvas.height !== frame.height) {
+      canvas.width = frame.width;
+      canvas.height = frame.height;
     }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-
-    const scale = Math.min(w / frame.width, h / frame.height);
-    const dw = frame.width * scale;
-    const dh = frame.height * scale;
-    ctx.drawImage(frame.source, (w - dw) / 2, (h - dh) / 2, dw, dh);
+    ctx.clearRect(0, 0, frame.width, frame.height);
+    ctx.drawImage(frame.source, 0, 0);
     lastFrameRef.current = index;
   }, []);
 
