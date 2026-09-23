@@ -33,34 +33,6 @@ body {
     display: none;
   }
 
-  /* Esmaece as bordas do canvas do hero para o fundo escuro embutido nos
-     quadros fundir com o #0A1628 da seção, sem retângulo aparente. */
-  .canvas-fade {
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
-      linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
-      linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-    mask-composite: intersect;
-  }
-
-  /* No celular o mockup sangra até as bordas: a margem vazia é de 3,3% no
-     quadro inicial e chega a 0% nas laterais e na base no meio do giro, então
-     um fade ali recortaria o aparelho. O topo é a exceção — tem 13,3% de
-     fundo vazio em todos os quadros —, então abaixo de 768px fica só o fade
-     superior de 10%, que disfarça a borda mais visível do retângulo sem
-     tocar no conteúdo. Uma camada só, daí o composite volta para "add": com
-     "intersect" a única camada seria intersectada com o vazio e sumiria. */
-  @media (max-width: 767px) {
-    .canvas-fade {
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 100%);
-      -webkit-mask-composite: source-over;
-      mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 100%);
-      mask-composite: add;
-    }
-  }
 }
 
 /* Base custom classes */
