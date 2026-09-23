@@ -146,9 +146,17 @@ export default function HeroMotion() {
     if (!canvas || frames.length === 0) return;
 
     const count = frames.length;
-    // cada slide consome uma volta inteira do giro
-    const turn = progressRef.current % 1;
-    const index = Math.min(count - 1, Math.max(0, Math.round(turn * (count - 1))));
+    // Cada slide consome uma volta inteira do giro, percorrida em zigue-zague:
+    // nas voltas pares os quadros vão do primeiro ao último, nas ímpares voltam
+    // do último ao primeiro. O vídeo de origem não fecha o ciclo — termina num
+    // ângulo diferente do inicial —, então reiniciar do zero a cada volta dava
+    // um salto visível. Indo e voltando, cada passagem termina exatamente no
+    // quadro em que a seguinte começa, sem descontinuidade.
+    const progress = progressRef.current;
+    const lap = Math.floor(progress);
+    const turn = progress - lap;
+    const walk = lap % 2 === 0 ? turn : 1 - turn;
+    const index = Math.min(count - 1, Math.max(0, Math.round(walk * (count - 1))));
 
     // Nada mudou desde o último desenho: o arraste não precisa repintar.
     if (!force && index === lastFrameRef.current) return;
