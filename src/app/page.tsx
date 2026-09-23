@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import HeroMotion from "@/components/HeroMotion";
 import Methodology from "@/components/Methodology";
 import Solutions from "@/components/Solutions";
 import Projetos from "@/components/Projetos";
@@ -14,7 +14,7 @@ export default function Home() {
     <>
       <Navbar />
       <main>
-        <Hero />
+        <HeroMotion />
         <Methodology />
         <Solutions />
         <Projetos />
